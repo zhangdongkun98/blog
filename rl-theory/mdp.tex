@@ -1,0 +1,148 @@
+\input{settings} % add packages, settings, and declarations in settings.tex
+
+\usepackage[utf8]{inputenc}
+
+
+
+\title{note}
+\author{Dongkun Zhang}
+\date{May 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Markov Decision Process}
+
+
+
+
+
+
+
+\begin{align*}
+    r_{t_0}^{\gamma} = \sum_{t=t_0}^{\infty}\gamma^{t-t_0}r(s_t,a_t) \\
+    J(\pi) = \mathbb{E}[ r_0^{\gamma} ;\pi]
+\end{align*}
+
+
+\begin{align*}
+    J(\pi) = \mathbb{E}_{s \sim \rho^{\pi}(\cdot), \ a \sim \pi(\cdot|s)}[r(s,a)] \\
+\end{align*}
+
+
+Optimization Problem:
+\begin{align*}
+    \max_{\pi} J(\pi)
+\end{align*}
+
+
+
+\begin{align*}
+    V^{\pi}(s) &= \mathbb{E}[r_t^{\gamma} | S_t=s; \pi] \\
+    Q^{\pi}(s,a) &= \mathbb{E}[r_t^{\gamma} | S_t=s, A_t=a; \pi]
+\end{align*}
+
+
+
+\section{Value Function}
+
+ 
+\begin{align*}
+    V^{\pi}(s) &= \mathbb{E}_{a \sim \pi(\cdot|s)}[Q^{\pi}(s,a)] \\
+    Q^{\pi}(s,a)&= r(s,a) + \mathbb{E}_{s' \sim p(\cdot|s,a)}[V^{\pi}(s')]
+\end{align*}
+
+
+
+
+\begin{align*}
+    V(s) &= V^{*}(s) = \max_{\pi}V^{\pi}(s) \\
+    Q(s,a) &= Q^{*}(s,a) = \max_{\pi}Q^{\pi}(s,a)
+\end{align*}
+
+
+
+\begin{align*}
+    V(s) = \max_{a}Q^{\pi}(s,a)
+\end{align*}
+
+
+
+
+\begin{tcolorbox}
+\textbf{
+    Value Function
+} 
+\textit{
+    Something
+}
+\begin{align*}
+    Q(s,a) & = r(s,a) + \mathbb{E}_{s' \sim p(\cdot|s,a)}[V(s')] \\
+    & = r(s,a) + \mathbb{E}_{s' \sim p(\cdot|s,a)}[\max_{a'}Q(s',a')]
+\end{align*}
+\end{tcolorbox}
+
+\begin{solution}\ \\
+Before
+\begin{align*}
+    Q(s,a) & = \max_{\pi}Q^{\pi}(s,a) \\
+    & = r(s,a) + \max_{\pi}\mathbb{E}_{s' \sim p(\cdot|s,a)}[V(s')]
+\end{align*}
+After.
+\end{solution}
+
+
+
+
+
+\begin{tcolorbox}
+\textbf{
+    (Definition) Advantage Function
+} 
+\textit{
+    Something
+}
+\begin{align*}
+    A^{\pi}(s,a) = Q^{\pi}(s,a) - V^{\pi}(s) \\
+    \mathbb{E}_{a \sim \pi(\cdot|s)}[A^{\pi}(s,a)] = 0
+\end{align*}
+\end{tcolorbox}
+
+
+
+
+
+\begin{tcolorbox}
+\textbf{
+    Optimal Advantage Function
+} 
+\textit{
+    Something
+}
+\begin{align*}
+    A(s,a) = Q(s,a) - V(s) \\
+    A(s,a^{*}) = 0, \quad a^{*} = \mathop{\arg\max}_{a}Q(s,a)
+\end{align*}
+\end{tcolorbox}
+
+\begin{solution}\ \\
+Before
+\begin{align*}
+    V^{\pi}(s) & = \mathbb{E}_{a \sim \pi(\cdot|s)}[Q^{\pi}(s,a)] \\
+    & = \mathbb{E}_{a \sim \pi(\cdot|s)}[A^{\pi}(s,a) + V^{\pi}(s)] \\
+    & = \mathbb{E}_{a \sim \pi(\cdot|s)}[A^{\pi}(s,a)] + V^{\pi}(s)
+\end{align*}
+After.
+\end{solution}
+
+
+
+
+
+
+
+
+
+
+\end{document}
