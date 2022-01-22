@@ -47,3 +47,11 @@ Having trouble with Pages? Check out our [documentation](https://docs.github.com
 
 - [Lagrange](https://github.com/LeNPaul/Lagrange)
 
+- [overleaf template 1](https://www.overleaf.com/articles/riemannduo-yang-ti-shang-falsefa-san-falsetong-zhi-nading-yi/tpvvmprwkzfr)
+- [overleaf template 2](https://www.overleaf.com/latex/templates/assignment-template/hwddqynqfrhn)
+- [overleaf template 3](https://www.overleaf.com/articles/alana-completo/vxztqkcrnvhr)
+- [overleaf template 4](https://www.overleaf.com/latex/templates/science-textbook-template/nvzhnndzsrtw)
+
+
+- [Running KaTeX on Jekyll?](https://stackoverflow.com/questions/50890702/running-katex-on-jekyll)
+- [Background color of Markdown blocks](https://tex.stackexchange.com/questions/529616/background-color-of-markdown-blocks)
