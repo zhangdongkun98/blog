@@ -1,0 +1,203 @@
+\input{settings} % add packages, settings, and declarations in settings.tex
+
+\usepackage[utf8]{inputenc}
+
+
+
+\title{note}
+\author{Dongkun Zhang}
+% \date{Jan 2022}
+
+\begin{document}
+
+\maketitle
+
+\section{Meta-learning}
+
+
+
+\begin{tcolorbox}
+\textbf{
+    (Definition) Dataset
+} 
+% \textit{
+%     Something
+% }
+\begin{align*}
+    \mathcal{D} = \left\{ (x,y)_i \right\}
+\end{align*}
+\end{tcolorbox}
+
+
+\begin{tcolorbox}
+\textbf{
+    (Definition) Task
+} 
+\begin{align*}
+    \mathcal{T} = (\ell, \mathcal{D}^{{\rm train}}, \mathcal{D}^{{\rm test}})
+\end{align*}
+\end{tcolorbox}
+
+
+
+\begin{tcolorbox}
+\textbf{
+    Supervised learning (Probabilistic View)
+} 
+\begin{align*}
+    \phi^{*} = \mathop{\arg\max}_{\phi}\log p(\phi | \mathcal{D})
+\end{align*}
+\end{tcolorbox}
+
+
+\begin{tcolorbox}
+\textbf{
+    Meta-supervised learning (Probabilistic View)
+} 
+\begin{align*}
+    \phi^{*} = \mathop{\arg\max}_{\phi}\log p(\phi | \mathcal{D}, \mathcal{D}_{{\rm prior}})
+\end{align*}
+where $\mathcal{D}_{{\rm prior}} = \left\{ \mathcal{D}_1, \mathcal{D}_2, ..., \mathcal{D}_n \right\}$.
+\end{tcolorbox}
+
+\begin{tcolorbox}
+\textbf{
+    Meta-supervised learning (Probabilistic View, Approximated)
+}
+\begin{align*}
+    \phi^{*} &= \mathop{\arg\max}_{\phi}\log p(\phi | \mathcal{D}, \theta^{*}) \\
+    \theta^{*} &= \mathop{\arg\max}_{\theta}\log p(\theta, \mathcal{D}_{{\rm prior}})
+\end{align*}
+\end{tcolorbox}
+
+
+
+\begin{tcolorbox}
+\textbf{
+    Meta-supervised learning (Mechanistic View)
+}
+\begin{align*}
+    \theta^{*} &= \mathop{\arg\min}_{\theta} \frac{1}{M} \sum_{i=1}^{M} \ell_i(\phi_i, \mathcal{D}_i^{{\rm test}}) \\
+    & {\rm s.t.} \quad \phi^{*} = f_{{\rm Adapt}}(\theta, \mathcal{D}_i^{{\rm train}})
+\end{align*}
+\end{tcolorbox}
+
+
+
+
+\begin{align*}
+    \theta^{*} &= \mathop{\arg\min}_{\theta} \frac{1}{M} \sum_{i=1}^{M} \ell_i(\phi_i^{*}, \mathcal{D}_i^{{\rm test}}) \\
+    & {\rm s.t.} \quad \phi_i^{*} = f_{{\rm Adapt}}(\theta, \mathcal{D}_i^{{\rm train}})
+\end{align*}
+
+\begin{align*}
+    \phi_i^{*} &= f_{\theta}(\mathcal{D}_i^{{\rm train}}) \\
+    \phi_i^{*} &= \mathop{\arg\min}_{\phi_i} \ell_i(\phi_i, \theta, \mathcal{D}_i^{{\rm train}})
+\end{align*}
+
+
+
+\begin{align*}
+    \theta^{*} &= \mathop{\arg\min}_{\theta} \frac{1}{M} \sum_{i=1}^{M} \ell_i(\phi_i^{*}, \mathcal{D}_i^{{\rm test}}) \\
+    & {\rm s.t.} \quad \phi_i^{*} = \mathop{\arg\min}_{\phi_i} \ell_i(\phi_i, \theta, \mathcal{D}_i^{{\rm train}})
+\end{align*}
+
+\begin{align*}
+    \phi_i^{k+1} = \phi_i^{k} - \lambda \nabla_{\phi_i^{k}} \ell_i(\phi_i^{k}, \mathcal{D}_i^{{\rm train}}), \quad \phi_i^{0}=\theta
+\end{align*}
+
+
+
+
+
+
+\begin{align*}
+x_{1:T}^{*}, u_{1:T}^{*} &= \mathop{\arg\min}_{x_{1:T} \in \mathcal{X}, u_{1:T} \in \mathcal{U}}  \sum_{t=1}^{T}C(x_t, u_t) \\
+&{\rm s.t.} \quad x_{t+1} = f(x_t, u_t), \quad x_1 = x_{{\rm init}} \\
+& \qquad \ x_{{\rm min}} \leq x_t \leq x_{{\rm max}}, \quad u_{{\rm min}} \leq u_t \leq u_{{\rm max}}
+\end{align*}
+
+
+\begin{align*}
+\theta^{*} &= \mathop{\arg\min}_{\theta} \sum_{t=1}^{T} \lVert x_t^{*} - x_t^{{\rm ref}} \rVert _2^2 + \lVert u_t^{*} - u_t^{{\rm ref}} \rVert _2^2 \\
+& {\rm s.t.} \quad x_{1:T}^{*}, u_{1:T}^{*} = \mathop{\arg\min}_{x_{1:T} \in \mathcal{X}, u_{1:T} \in \mathcal{U}}  \sum_{t=1}^{T}C_{\theta}(x_t, u_t) \\
+& \qquad\qquad {\rm s.t.} \quad x_{t+1} = f_{\theta}(x_t, u_t), \quad x_1 = x_{{\rm init}} \\
+& \qquad\qquad \qquad \ x_{{\rm min}} \leq x_t \leq x_{{\rm max}}, \quad u_{{\rm min}} \leq u_t \leq u_{{\rm max}}
+\end{align*}
+
+
+\begin{align*}
+    \theta^{*} &= \mathop{\arg\min}_{\theta} \sum_{t=1}^{T} \lVert \hat{x}_t - x_t \rVert _2^2 \\
+    &{\rm s.t.} \quad \hat{x}_t = f_{\theta}(x_{t-1}, u_{t-1})
+\end{align*}
+
+
+
+
+\begin{align*}
+    \min_{\theta} & \frac{1}{NMT} \Bigg( \sum_{i=1}^{N}\sum_{j=1}^{M} \int_0^T \lVert x_{ij} - x_i^{\rm ref} \rVert _2^2 + \mu_{{\rm ctrl}}  \lVert u_{ij} \rVert _2^2  dt + \mu_{{\rm meta}}  \lVert \theta \rVert _2^2  \Bigg)  \\
+    & {\rm s.t.} \quad \dot{x}_{ij} = f(x_{ij}) + B(x_{ij})(u_{ij} + \hat{A}y(x_{ij}; \phi))    \\
+    & \qquad \ u_{ij} = \bar{\pi}(x_{ij}, x_{ij}^{\rm ref}, u_{ij}^{\rm ref}; \kappa) - \hat{A}y(x_{ij}; \phi)   \\
+    & \qquad \ \dot{\hat{A}} = \Gamma B(x)^T  \nabla_{x_{ij}} \bar{V}(x_{ij}, x_{ij}^{\rm ref}; \kappa) y(x; \phi) ^T
+    % \dot{\hat{A}} &= \Gamma \tran{B(x)}\grad_x \bar{V}(x,x^*; \kappa)\tran{y(x; \varphi)}
+\end{align*}
+
+\begin{align*}
+    \theta = (\phi, \Gamma, \kappa) \\
+    \min_{\varphi}
+\end{align*}
+
+
+
+
+
+\begin{align*}
+    \dot{x} = f(x, u, \omega) \\
+    \dot{x} = f(x) + g(x) (u + w(x)) \\
+\end{align*}
+
+\begin{align*}
+    \lVert \omega \rVert \leq d \\
+    w(x) = \theta^{T} [\omega_1(x), \omega_2(x), ..., \omega_l(x)] \\
+    u = \pi(x) \\
+    u = \pi(x, \hat{\theta}) \\
+    \dot{\hat{\theta}} = \rho(x) \\
+    \hat{\theta}  \rightarrow    \theta \\
+    \omega_i(x)
+\end{align*}
+
+
+
+
+% \tcbset{
+%         enhanced,
+%         colback=red!5!white,
+%         boxrule=0.1pt,
+%         colframe=red!75!black,
+%         fonttitle=\bfseries
+% }
+\begin{tcolorbox}[title=Definition,
+    % hbox,
+    lifted shadow={1mm}{-2mm}{3mm}{0.1mm}%
+{black!50!white}]
+\textbf{
+    Dataset
+} 
+\begin{align*}
+    \mathcal{D} = \left\{ (x,y)_i \right\}
+\end{align*}
+\end{tcolorbox}
+
+
+
+\begin{align*}
+    \theta^{*} \\
+    \mathcal{D}_{i}^{{\rm train}} \\
+    \mathcal{D}_{i}^{{\rm test}} \\
+    \mathcal{D}^{{\rm train}} \\
+    \mathcal{D}^{{\rm test}} 
+\end{align*}
+
+
+
+\end{document}

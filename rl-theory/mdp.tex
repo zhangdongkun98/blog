@@ -50,7 +50,7 @@
     (Proposition)
 } 
 \textit{
-    Define $ {\rm{Pr}}(s\to s',k,\pi) $ as the probability of transitioning from state $s$ to state $s'$ in $k$ steps under policy $\pi$
+    Define $ {\rm{Pr}}(s\to s',k,\pi) $ as the probability of transitioning from state $s$ to state $s'$ in $k$ steps under policy $\pi$, then
 }
 \begin{align*}
     & J(\pi, \gamma, p_0, p) = J(\pi, \rho^{\pi}) \\
@@ -62,26 +62,27 @@ where $ \rho^{\pi}(s) = \sum_{s_0} p_0(s_0) \sum_{t=0}^{\infty} \gamma^{t} {\rm{
 
 \end{tcolorbox}
 
-
+    
 \begin{solution}\ \\
-Some definitions:
-\begin{align*}
-    \tau = (s_0,a_0,s_1,a_1,...)
-\end{align*}
+Consider a table $\mathcal{T} \in \mathbb{R}_{+} \times \mathbb{R}^{|\mathcal{S}||\mathcal{A}|} $ as shown in Fig. \ref{fig:mdp-table}. Therefore,
 \begin{align*}
     J(\pi, \gamma, p_0, p) &= \mathbb{E}[ g_0 ;\pi, \gamma, p_0, p] \\
     &= \mathbb{E}[ \sum_{t=0}^{\infty}\gamma^{t}r(s_t,a_t) ;\pi, p_0, p] \\
-    &= \mathbb{E}_{\tau \sim p_{\tau}(\cdot)}[ \sum_{t=0}^{\infty}\gamma^{t}r(s_t,a_t) ] \\
-    &= \sum_{\tau} p_{\tau}(\tau) (\sum_{t=0}^{\infty}\gamma^{t}r(s_t,a_t)) \\
     &= \sum_{s_0} p_0(s_0) \sum_{t=0}^{\infty}\gamma^{t} \sum_s\sum_a \pi(a|s) {\rm{Pr}}(s_0\to s,t,\pi) r(s,a) \\
     &= \sum_{s} \rho^{\pi}(s) \sum_{a} \pi(a|s) r(s,a) \\
     &= \mathbb{E}_{s \sim \rho^{\pi}(\cdot), \ a \sim \pi(\cdot|s)}[r(s,a)]
 \end{align*}
-After.
+End proof.
 \end{solution}
 
-
-
+\begin{figure}[t]
+\center
+\includegraphics[width=0.5\textwidth, trim=0 0 0 0,clip]{image/2022-02-01-mdp-table.jpeg}  % trim: left, bottom, right, up
+\caption{
+    A MDP table.
+}
+\label{fig:mdp-table}
+\end{figure}
 
 
 
@@ -134,7 +135,7 @@ After.
 Before
 \begin{align*}
     Q(s,a) & = \max_{\pi}Q^{\pi}(s,a) \\
-    & = r(s,a) + \max_{\pi}\mathbb{E}_{s' \sim p(\cdot|s,a)}[V(s')]
+    & = r(s,a) + \max_{\pi}\mathbb{E}_{s' \sim p(\cdot|s,a)}[V^{\pi}(s')]
 \end{align*}
 After.
 \end{solution}
